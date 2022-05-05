@@ -1,0 +1,25 @@
+version: '3.6'
+
+services:
+  web:
+    build:
+      context: .
+    volumes:
+      - .:/projeto
+    environment:
+      - TEMPLATES_AUTO_RELOAD=True
+      - PYTHONUNBUFFERED=1
+      - APPLY_TO_ALL=True
+    ports:
+      - 5000:5000
+    networks:
+      - network
+  rabbit:
+    image: rabbitmq:3-management
+    ports:
+      - 15672:15672
+      - 5672:5672
+    networks:
+      - network
+networks:
+  network: {}
