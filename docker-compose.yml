@@ -1,25 +1,38 @@
 version: '3.6'
 
 services:
-  web:
+  producer:
     build:
       context: .
     volumes:
       - .:/projeto
     environment:
-      - TEMPLATES_AUTO_RELOAD=True
-      - PYTHONUNBUFFERED=1
-      - APPLY_TO_ALL=True
-    ports:
-      - 5000:5000
+      - RABBITMQ_HOST=rabbitmqServer
     networks:
-      - network
+      - rabbit-network
+    depends_on:
+      - rabbit
+  receiver:
+    build:
+      context: .
+    command: python3 -u receiver.py
+    volumes:
+      - .:/projeto
+    environment:
+      - RABBITMQ_HOST=rabbitmqServer
+    networks:
+      - rabbit-network
+    depends_on:
+      - rabbit
   rabbit:
     image: rabbitmq:3-management
+    container_name: rabbitmqServer
     ports:
       - 15672:15672
       - 5672:5672
     networks:
-      - network
+      - rabbit-network
+
 networks:
-  network: {}
+  rabbit-network:
+    driver: bridge
