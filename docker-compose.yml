@@ -4,6 +4,7 @@ services:
   producer:
     build:
       context: .
+    command: python3 -u send.py
     volumes:
       - .:/projeto
     environment:
