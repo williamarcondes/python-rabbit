@@ -10,9 +10,9 @@ channel.queue_declare(queue="urls")
 
 
 def callback(ch, method, properties, body):
-    print(f"Raspando o conteúdo da URL = https://www.tecmundo.com.br/{body.decode('utf-8')}")
+    print(f"Acessando o conteúdo da URL = https://www.tecmundo.com.br/{body.decode('utf-8')}")
     time.sleep(3)
-    print("[x] Conteúdo Raspado com Sucesso")
+    print("[x] Conteúdo Acessando com Sucesso")
 
 
 channel.basic_consume(
